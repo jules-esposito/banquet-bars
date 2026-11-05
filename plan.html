@@ -27,14 +27,33 @@ ol{list-style:none;margin:56px 0 0;padding:0;counter-reset:s}
 li{counter-increment:s;display:grid;grid-template-columns:36px 1fr auto;column-gap:24px;padding:22px 0;border-top:1px solid var(--line);color:var(--ink)}
 li:last-child{border-bottom:1px solid var(--line)}
 li::before{content:counter(s);font:400 22px/1.3 var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
+nav{display:flex;gap:28px;margin-top:48px;border-bottom:1px solid var(--line)}
+nav button{font:500 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:none;border:0;border-bottom:1px solid transparent;padding:0 0 14px;margin-bottom:-1px;cursor:pointer;transition:color .15s}
+nav button:hover{color:var(--ink)}
+nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane ol{margin-top:0}
+.pane{padding-top:48px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:32px}
+h2{font:400 22px/1.2 var(--serif);letter-spacing:-.01em;color:var(--ink);margin:0}
+.head a{font:500 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:4px}
+.pages{display:grid;gap:24px}
+.pages img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
 time{font:500 11px/1.9 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-@media(max-width:600px){time{grid-column:2;margin-top:6px}body{padding-top:16px}.sheet{padding:36px 24px 44px}h1{margin-top:40px}ol{margin-top:40px}}
+@media(max-width:600px){time{grid-column:2;margin-top:6px}body{padding-top:16px}.sheet{padding:36px 24px 44px}h1{margin-top:40px}nav{margin-top:36px}}
 </style>
 
 <div class="sheet">
   <div class="brand">Appellation</div>
   <h1>Banquet Bar Review</h1>
   <p class="sub">Healdsburg and Lodi</p>
+  <nav role="tablist">
+    <button role="tab" aria-selected="true" data-tab="plan">Plan</button>
+    <button role="tab" aria-selected="false" data-tab="healdsburg">Healdsburg</button>
+    <button role="tab" aria-selected="false" data-tab="lodi">Lodi</button>
+  </nav>
+  <div class="pane" id="plan">
   <ol>
     <li><span>Collect pricing and packages for each hotel's banquet and bar programs.</span><time>Week of Nov 2</time></li>
     <li><span>Meet Ariel and Yamona in Healdsburg this week to review the current event bar program, inventory controls, and well versus premium spirits.</span><time>Week of Nov 2</time></li>
@@ -42,4 +61,28 @@ time{font:500 11px/1.9 var(--sans);letter-spacing:.14em;text-transform:uppercase
     <li><span>Research bar packages at other hotel companies.</span><time>Nov 9 – 20</time></li>
     <li><span>Return to the home office with findings and define the next step.</span><time>By Nov 23</time></li>
   </ol>
+  </div>
+  <div class="pane" id="healdsburg" hidden>
+    <div class="head"><h2>Healdsburg</h2><a href="menus/healdsburg-event-menu.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+    <div class="pages">
+      <img src="menus/healdsburg-1.jpg" alt="Healdsburg menu page 1" loading="lazy">
+      <img src="menus/healdsburg-2.jpg" alt="Healdsburg menu page 2" loading="lazy">
+      <img src="menus/healdsburg-3.jpg" alt="Healdsburg menu page 3" loading="lazy">
+      <img src="menus/healdsburg-4.jpg" alt="Healdsburg menu page 4" loading="lazy">
+    </div>
+  </div>
+  <div class="pane" id="lodi" hidden>
+    <div class="head"><h2>Lodi</h2><a href="menus/lodi-beverages.pdf" target="_blank" rel="noopener">Open PDF</a></div>
+    <div class="pages">
+      <img src="menus/lodi-1.jpg" alt="Lodi menu page 1" loading="lazy">
+      <img src="menus/lodi-2.jpg" alt="Lodi menu page 2" loading="lazy">
+      <img src="menus/lodi-3.jpg" alt="Lodi menu page 3" loading="lazy">
+    </div>
+  </div>
 </div>
+<script>
+document.querySelectorAll('nav button').forEach(function(t){t.addEventListener('click',function(){
+  document.querySelectorAll('nav button').forEach(function(x){x.setAttribute('aria-selected',x===t)});
+  document.querySelectorAll('.pane').forEach(function(p){p.hidden=p.id!==t.dataset.tab});
+})});
+</script>
